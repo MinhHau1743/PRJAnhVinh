@@ -14,11 +14,9 @@ public class ManageAccount {
     private static ArrayList<Account> listAccount;
     private static ArrayList<Role> listRole;
 
-    public static ArrayList<Account> getListAccount() {
+    public ArrayList<Account> getListAccount() {
         return listAccount;
     }
-
-    
 
     public ArrayList<Role> getListRole() {
         return listRole;
@@ -36,6 +34,11 @@ public class ManageAccount {
         listAccount.add(new Account("2", "1", true, roleUser));
         listAccount.add(new Account("3", "1", true, roleAdmin));
         listAccount.add(new Account("4", "1", true, roleAdmin));
-    }
+        
+        
+//        for (Account account : listAccount) {
+//            
+//        }
+   }
 
 }

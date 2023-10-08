@@ -31,6 +31,7 @@
                 <!-- <option value="admin">Admin</option>
                                 <option value="user">User</option>-->
                 
+                <!--hien thi tung Role cho nguoi dung chon-->
                 <c:forEach items="${listRole}" var="hau">
                     <option value="${hau.id}">${hau.username}</option>
                 </c:forEach>

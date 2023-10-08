@@ -21,12 +21,14 @@
                 <th>Gender</th>
                 <th>Role</th>    
             </tr>
+            
+            <!--hien thi tat ca cac Account-->
             <c:forEach items="${listAccount}" var="account">
             </tr>
                 <td>${account.username}</td>
                 <td>${account.password}</td>
                 <td>${account.gender ? 'Male' : 'Female'}</td>
-                <td>${account.role}</td>  
+                <td>${account.role.username}</td>  
 
             </tr>
         </c:forEach>
