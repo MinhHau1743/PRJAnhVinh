@@ -1,4 +1,5 @@
 
+import java.awt.AWTEventMulticaster;
 import java.util.ArrayList;
 
 /*
@@ -40,5 +41,16 @@ public class ManageAccount {
 //            
 //        }
    }
+
+    ArrayList<Account> findByKeyword(String keyword) {
+        ArrayList<Account> listSearch = new ArrayList<>();
+        for (Account account : listAccount) {
+            // check Username Account = keyword
+            if (account.getUsername().toUpperCase().contains(keyword.toUpperCase())) {
+                listSearch.add(account);
+            }
+        }
+        return listSearch;
+    }
 
 }

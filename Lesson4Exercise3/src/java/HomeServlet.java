@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -22,8 +23,12 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // lay ve danh sach listAccount
-        ArrayList<Account> list = manage.getListAccount();
+        //lay ve keyword
+        String keyword = request.getParameter("keyword") == null ? "" : request.getParameter("keyword");
+        // lay ve danh sach listAccount dua tren keyword
+        ArrayList<Account> list = manage.findByKeyword(keyword);
+        
+        
         // set listAccount vao request
         request.setAttribute("listAccount", list);
         // chuyen qua trang display.jsp
