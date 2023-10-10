@@ -13,7 +13,12 @@
         <title>JSP Page</title>
     </head>
     <body>
-
+        
+        <form action="home?action=search" method="GET">
+            Search <input type="text" name="keyword"/>
+            <input type="submit" value="Submit"/>
+            
+        </form>
         <table border="1">
             <tr>
                 <th>Username</th>
