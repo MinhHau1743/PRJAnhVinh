@@ -53,4 +53,17 @@ public class ManageAccount {
         return listSearch;
     }
 
+    Account findByUsername(String username) {
+        for (Account account : listAccount){
+            if (account.getUsername().equalsIgnoreCase(username)) {
+                return account;
+            }
+        }
+        return null;
+    }
+
+    void removeAccount(Account account) {
+        listAccount.remove(account);
+    }
+
 }

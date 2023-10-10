@@ -27,12 +27,10 @@ public class HomeServlet extends HttpServlet {
         String keyword = request.getParameter("keyword") == null ? "" : request.getParameter("keyword");
         // lay ve danh sach listAccount dua tren keyword
         ArrayList<Account> list = manage.findByKeyword(keyword);
-        
-        
         // set listAccount vao request
         request.setAttribute("listAccount", list);
         // chuyen qua trang display.jsp
-        request.getRequestDispatcher("display.jsp").forward(request, response); 
+        request.getRequestDispatcher("display.jsp").forward(request, response);
     }
 
     /**
@@ -46,6 +44,14 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //get ve username ma nguoi dung muon xoa
+        String username = request.getParameter("username");
+        //tim account dua tren username ma nguoi dung muon xoa
+        Account account = manage.findByUsername(username);
+        //xoa account
+        manage.removeAccount(account);
+        //quay tro ve do Get cua home servlet
+        response.sendRedirect("home");
     }
 
     /**
