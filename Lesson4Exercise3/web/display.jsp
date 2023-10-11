@@ -15,10 +15,42 @@
     <body>
 
         <form action="home?action=search" method="GET">
-            Search <input type="text" name="keyword" value="hau hau dau"/>
+            Search <input type="text" name="keyword" value=""/>
             <input type="submit" value="Submit"/>
 
         </form>
+
+        <button id="addButton">Add</button>
+        <div id="registerForm" style="display: none;">
+            <form action="home?action=add" method="POST">
+                Username <input type="text" name="username" autocomplete="off"/>
+                <br/><br/>
+                Password <input type="password" name="password" autocomplete="off"/><!-- comment -->
+                <br/><br/>
+
+
+                Gender <input type="radio" name="gender" value="male"/>nam
+                <input type="radio" name="gender" value="female"/>nu
+                <br/><br/>
+
+
+                Role <select name="role">
+                    <!-- <option value="admin">Admin</option>
+                                    <option value="user">User</option>-->
+
+                    <!--hien thi tung Role cho nguoi dung chon-->
+                    <c:forEach items="${listRole}" var="hau">
+                        <option value="${hau.id}">${hau.username}</option>
+                    </c:forEach>
+                </select>
+                <br/><br/>
+
+                <input type="submit" value="login"/>
+
+
+            </form>
+
+        </div>
         <table border="1">
             <tr>
                 <th>Username</th> 
@@ -46,4 +78,15 @@
     </c:forEach>
 </table>
 </body>
+<script>
+    // JavaScript code to toggle the registration form's visibility
+    document.getElementById("addButton").addEventListener("click", function () {
+        var registerForm = document.getElementById("registerForm");
+        if (registerForm.style.display === "none" || registerForm.style.display === "") {
+            registerForm.style.display = "block";
+        } else {
+            registerForm.style.display = "none";
+        }
+    });
+</script>
 </html>

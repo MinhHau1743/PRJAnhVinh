@@ -27,8 +27,10 @@ public class HomeServlet extends HttpServlet {
         String keyword = request.getParameter("keyword") == null ? "" : request.getParameter("keyword");
         // lay ve danh sach listAccount dua tren keyword
         ArrayList<Account> list = manage.findByKeyword(keyword);
+        ArrayList<Role> listRole = manage.getListRole();
         // set listAccount vao request
         request.setAttribute("listAccount", list);
+        request.setAttribute("listRole", listRole);
         // chuyen qua trang display.jsp
         request.getRequestDispatcher("display.jsp").forward(request, response);
     }
@@ -44,12 +46,19 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //get ve username ma nguoi dung muon xoa
-        String username = request.getParameter("username");
-        //tim account dua tren username ma nguoi dung muon xoa
-        Account account = manage.findByUsername(username);
-        //xoa account
-        manage.removeAccount(account);
+
+        String action = request.getParameter("action") == null ? "" : request.getParameter("action");;
+        switch (action) {
+            case "delete":
+                delete(request);
+                break;
+            case "add":
+                add(request);
+                break;
+            default:
+                break;
+        }
+
         //quay tro ve do Get cua home servlet
         response.sendRedirect("home");
     }
@@ -63,5 +72,32 @@ public class HomeServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private void delete(HttpServletRequest request) {
+        //get ve username ma nguoi dung muon xoa
+        String username = request.getParameter("username");
+        //tim account dua tren username ma nguoi dung muon xoa
+        Account account = manage.findByUsername(username);
+        //xoa account
+        manage.removeAccount(account);
+    }
+
+    private void add(HttpServletRequest request) {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        String genderStr = request.getParameter("gender");
+        boolean gender = genderStr.equalsIgnoreCase("male") ? true : false;
+        int roleId = Integer.parseInt(request.getParameter("role"));
+        
+        Role roleObject = manage.findRoleById(roleId);
+        //Tao 1 doi tuong Account
+        Account myAccount = new Account(username, password, gender, roleObject);
+        
+        //them doi tuong account vao ben trong collection
+        manage.addAccount(myAccount);
+        
+        
+    }
 
 }

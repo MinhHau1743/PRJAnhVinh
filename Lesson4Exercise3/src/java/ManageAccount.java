@@ -66,4 +66,18 @@ public class ManageAccount {
         listAccount.remove(account);
     }
 
+    void addAccount(Account myAccount) {
+        listAccount.add(myAccount);
+    }
+
+    Role findRoleById(int roleId) {
+        for (Role role1 : listRole) {
+            if (role1.getId() == roleId) {
+                return role1;
+            }
+        }
+        return null;
+    }
+    
+
 }
