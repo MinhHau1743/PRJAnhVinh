@@ -21,7 +21,6 @@ import java.util.List;
  */
 public class HomeServlet extends HttpServlet {
 
- 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -30,7 +29,7 @@ public class HomeServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HomeServlet</title>");            
+            out.println("<title>Servlet HomeServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet HomeServlet at " + request.getContextPath() + "</h1>");
@@ -38,27 +37,37 @@ public class HomeServlet extends HttpServlet {
             out.println("</html>");
         }
     }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        //khia bao ỦL chuyen den
+        String url = "";
         // khai bao lop DAO
         AccountDAO accountDAO = new AccountDAO();
         // khai bao Array List
-        List <Account> list = new ArrayList<>();
+        List<Account> list = new ArrayList<>();
         // Get ve Action
         String action = request.getParameter("action") == null ? "" : request.getParameter("action");
+        System.out.println("ehllo------------------------:"+  action);
         // Dua tren gia tri Action
         switch (action) {
+            case "login":
+                url = login(request, url);
+                System.err.println("Account la : ");
+                break;
             default:
                 list = accountDAO.findAll();
+                url = "display.jsp";
+                System.err.println("Account la : ");
                 break;
         }
-        
+        System.out.println(url);
         // Set Array List vao trong Request
         request.setAttribute("listAccount", list);
         // Chuyen qua trang display.jsp
-        request.getRequestDispatcher("display.jsp").forward(request, response);
-      
+        request.getRequestDispatcher(url).forward(request, response);
+
     }
 
     /**
@@ -84,5 +93,27 @@ public class HomeServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private String login(HttpServletRequest request, String url) {
+        // khai bao DAO
+        AccountDAO accountDAO = new AccountDAO();
+
+        // lay Username, password 
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        // kiem tra Username va password co trong Database
+        Account account = accountDAO.findByUsernameOrPassword(username, password);
+        System.err.println("Account la : " + account);
+        // Dang nhap thanh cong, chuyen den trang thanhcong.jsp
+        if (account != null) {
+            url = "thanhcong.jsp";
+        } else {
+            request.setAttribute("error", "Username or Password is INCORRECT");
+            url = "login.jsp";
+            System.out.println("hellolo");
+        }
+        return url;
+    }
 
 }

@@ -21,9 +21,10 @@ public class AccountDAO extends DBContext {
 
     PreparedStatement statement;
     ResultSet resultSet;
-    
+
     /**
      * lấy về toàn bộ Account từ Database
+     *
      * @return List
      */
     public List<Account> findAll() {
@@ -80,7 +81,7 @@ public class AccountDAO extends DBContext {
         }
         return list;
     }
-    
+
     public static void main(String[] args) {
         AccountDAO dao = new AccountDAO();
         for (Account account : dao.findAll()) {
@@ -88,4 +89,58 @@ public class AccountDAO extends DBContext {
         }
     }
 
+    public Account findByUsernameOrPassword(String username, String password) {
+        //connect voi DB
+        connection = getConnection();
+        // chuan bi cau lenh SQL
+        String sql = "SELECT * FROM account WHERE username = ? AND password = ?";
+        try {
+            // Tao doi tuong PrepareStatement
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, username);
+            statement.setString(2, password);
+
+            // Thuc thi cau lenh SQL
+            resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                Account account = new Account();
+                int id = resultSet.getInt("id");
+                username = resultSet.getString("username");
+                password = resultSet.getString("password");
+                account.setId(id);
+                account.setUsername(username);
+                account.setPassword(password);
+                return account;
+            }
+        } catch (Exception e) {
+        } finally {
+            // Đảm bảo đóng các tài nguyên
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        // tra ve ket qua
+        return null;
+        // dam bao cac tai nguyen duoc dong
+
+    }
 }
